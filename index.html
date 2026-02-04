@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For Ayesha ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card {
+      background: #fff;
+      padding: 50px 60px;
+      border-radius: 25px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      max-width: 520px;
+      animation: fadeIn 2s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 { color: #c9184a; font-size: 2.7rem; margin-bottom: 10px; }
+    h2 { color: #e63946; font-weight: normal; margin-bottom: 25px; }
+    p { color: #444; font-size: 1.2rem; line-height: 1.7; }
+    .heart { font-size: 3.5rem; margin-bottom: 15px; animation: heartbeat 1.2s infinite; }
+    .signature { margin-top: 30px; font-style: italic; color: #777; font-size: 1.1rem; }
+    .play-button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      color: #fff;
+      background: #e63946;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .play-button:hover { transform: scale(1.1); }
+    .song-name { margin-top: 10px; font-size: 0.95rem; color: #555; display: none; }
+
+    .floating-heart {
+      position: absolute;
+      color: #e63946;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    @keyframes heartbeat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.3);} }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+  </style>
+</head>
+<body>
+
+  <!-- Local MP3 audio -->
+  <audio id="music" src="tingin.mp3" preload="auto"></audio>
+
+  <div class="card">
+    <div class="heart">❤️</div>
+    <h1>Ayesha</h1>
+    <h2>Happy Valentine’s Day</h2>
+    <p>
+      You are my favorite thought,<br>
+      my safest place,<br>
+      and my greatest love.<br><br>
+      Every day with you feels like a gift,<br>
+      and every future I imagine<br>
+      has you in it.
+    </p>
+    <div class="signature">— With all my love, Ivan 💕</div>
+
+    <button class="play-button" onclick="playMusic()">Play our song 🎶</button>
+    <div class="song-name" id="songName">Now playing: Tingin – Cup of Joe</div>
+  </div>
+
+  <script>
+    const music = document.getElementById('music');
+    const songName = document.getElementById('songName');
+    const hearts = [];
+
+    function playMusic() {
+      music.play();
+      songName.style.display = 'block';
+      startHearts();
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerText = '❤️';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.fontSize = 12 + Math.random() * 24 + 'px';
+      heart.style.top = window.innerHeight + 'px';
+      document.body.appendChild(heart);
+      hearts.push(heart);
+      return heart;
+    }
+
+    function animateHearts() {
+      hearts.forEach((heart, i) => {
+        let top = parseFloat(heart.style.top);
+        top -= 2 + Math.random() * 2; // rising speed
+        heart.style.top = top + 'px';
+        heart.style.opacity = 1 - (window.innerHeight - top) / window.innerHeight;
+        if (top < -50) {
+          heart.remove();
+          hearts.splice(i, 1);
+        }
+      });
+      requestAnimationFrame(animateHearts);
+    }
+
+    function startHearts() {
+      animateHearts();
+      // Approximate beat sync: new heart every 500ms, pulse effect
+      setInterval(() => {
+        const h = createHeart();
+        h.style.transform = 'scale(1.2)';
+        setTimeout(() => { h.style.transform = 'scale(1)'; }, 250);
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>
